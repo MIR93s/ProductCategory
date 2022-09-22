@@ -9,39 +9,138 @@ namespace ProductCategories.Data
     {
         public static void SeedDB(ApplicationDbContext context, string adminID)
         {
+            //context.Database.EnsureCreated();
             if (context.Category.Any())
             {
                 return; // DB has been seeded
             }
-            context.Category.AddRange(
-            new Category
+            var categories  = new Category[] {
+                new Category
+                {
+                    Title = "Clothes"
+                },
+                new Category
+                {
+                    Title = "Drink"
+                },
+                new Category
+                {
+                    Title = "Sport"
+                },
+                 new Category
+                 {
+                     Title = "Vegetable"
+                 },
+                new Category
+                {
+                    Title = "Meat"
+                },
+                new Category
+                {
+                    Title = "Hygiene"
+                },
+                 new Category
+                 {
+                     Title = "Dairy"
+                 },
+                new Category
+                {
+                    Title = "Bakery"
+                } 
+            };
+
+            foreach (var item in categories)
             {
-                Title = "Clothes"
-            },
-            new Category
+                context.Category.Add(item);
+            }
+            context.SaveChanges();
+
+            var products = new Models.Product[] {
+                new Models.Product
+                {
+                    Name ="Cheese"
+                },
+                new Models.Product
+                {
+                     Name = "Milk"
+                },
+                new Models.Product
+                {
+                     Name = "Tometo"
+                },
+                new Models.Product
+                {
+                     Name = "beef"
+                },
+                new Models.Product
+                {
+                    Name = "Bread"
+                },
+                new Models.Product
+                {
+                    Name = "Shoes"
+                },
+                new Models.Product
+                {
+                    Name = "Shampoo"
+                }
+            };
+            foreach (var item in products)
             {
-                Title = "Drink"
-            },
-            new Category
+                context.Product.Add(item);
+            }
+            context.SaveChanges();
+
+            var productCategories = new ProductCategory[] {
+                new ProductCategory
+                {
+                ProductId = products.Single(p => p.Name == "Cheese").Id,
+                CategoryId = categories.Single(c => c.Title == "Dairy").Id
+                },
+                new ProductCategory
+                {
+                ProductId = products.Single(p => p.Name == "Milk").Id,
+                CategoryId = categories.Single(c => c.Title == "Dairy").Id
+                },
+                new ProductCategory
+                {
+                ProductId = products.Single(p => p.Name == "Milk").Id,
+                CategoryId = categories.Single(c => c.Title == "Drink").Id
+                },
+                new ProductCategory
+                {
+                ProductId = products.Single(p => p.Name == "Tometo").Id,
+                CategoryId = categories.Single(c => c.Title == "Vegetable").Id
+                },
+                new ProductCategory
+                {
+                ProductId = products.Single(p => p.Name == "beef").Id,
+                CategoryId = categories.Single(c => c.Title == "Meat").Id
+                },
+                new ProductCategory
+                {
+                    ProductId = products.Single(p => p.Name == "Bread").Id,
+                    CategoryId = categories.Single(c => c.Title == "Bakery").Id
+                },
+                new ProductCategory
+                {
+                    ProductId = products.Single(p => p.Name == "Shoes").Id,
+                    CategoryId = categories.Single(c => c.Title == "Sport").Id
+                },
+                  new ProductCategory
+                  {
+                      ProductId = products.Single(p => p.Name == "Shoes").Id,
+                      CategoryId = categories.Single(c => c.Title == "Clothes").Id
+                  },
+                    new ProductCategory
+                    {
+                        ProductId = products.Single(p => p.Name == "Shampoo").Id,
+                        CategoryId = categories.Single(c => c.Title == "Hygiene").Id
+                    } };
+            foreach (var item in productCategories)
             {
-                Title = "Sport"
-            },
-             new Category
-             {
-                 Title = "Vegetable"
-             },
-            new Category
-            {
-                Title = "Meat"
-            },
-            new Category
-            {
-                Title = "Hygiene"
-            },
-            new Category
-            {
-                Title = "Bread"
-            });
+                context.ProductCategory.Add(item);
+            }
             context.SaveChanges();
         } 
         public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
