@@ -30,6 +30,7 @@ namespace ProductCategories.Controllers
         }
 
         // GET: Products
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var products = await _context.Product
